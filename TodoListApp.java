@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 public class TodoListApp {
     private JFrame frame;
     private JTextField taskInput;
+    private DefaultListModel<String> taskListModel;
+    private JList<String> taskList;
 
     public TodoListApp() {
         // Create the main frame
@@ -19,6 +21,11 @@ public class TodoListApp {
         JButton deleteButton = new JButton("Delete Task");
         JButton completeButton = new JButton("Mark Complete");
 
+        // Task list model and JList
+        taskListModel = new DefaultListModel<>();
+        taskList = new JList<>(taskListModel);
+        taskList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
         // Add components to the panel
         JPanel inputPanel = new JPanel();
         inputPanel.add(taskInput);
@@ -27,7 +34,8 @@ public class TodoListApp {
         inputPanel.add(completeButton);
 
         frame.getContentPane().add(inputPanel, BorderLayout.NORTH);
-
+        frame.getContentPane().add(new JScrollPane(taskList), BorderLayout.CENTER);
+       
         // Set the frame visibility
         frame.setVisible(true);
     }
