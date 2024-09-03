@@ -35,9 +35,43 @@ public class TodoListApp {
 
         frame.getContentPane().add(inputPanel, BorderLayout.NORTH);
         frame.getContentPane().add(new JScrollPane(taskList), BorderLayout.CENTER);
-       
+
+        // Add ActionListeners
+        addButton.addActionListener(new AddTaskListener());
+        deleteButton.addActionListener(new DeleteTaskListener());
+        completeButton.addActionListener(new CompleteTaskListener());
+ 
         // Set the frame visibility
         frame.setVisible(true);
+    }
+
+    private class AddTaskListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            String task = taskInput.getText();
+            if (!task.isEmpty()) {
+                taskListModel.addElement(task);
+                taskInput.setText("");
+            }
+        }
+    }
+
+    private class DeleteTaskListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            int selectedIndex = taskList.getSelectedIndex();
+            if (selectedIndex != -1) {
+                taskListModel.remove(selectedIndex);
+            }
+        }
+    }
+
+    private class CompleteTaskListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            int selectedIndex = taskList.getSelectedIndex();
+            if (selectedIndex != -1) {
+                String task = taskListModel.getElementAt(selectedIndex);
+                taskListModel.set(selectedIndex, task + " (Completed)");
+            }
+        }
     }
 
     public static void main(String[] args) {
